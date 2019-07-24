@@ -4,6 +4,7 @@ import (
   "github.com/gorilla/websocket"
   "net/http"
   "log"
+  "fmt"
 )
 
 type room struct {
@@ -21,6 +22,7 @@ const (
 var upgrader = &websocket.Upgrader{
   ReadBufferSize: socketBufferSize,
   WriteBufferSize: socketBufferSize,
+  CheckOrigin: func(r *http.Request) bool { return true },
 }
 
 func newRoom() *room {
@@ -52,7 +54,7 @@ func (r *room) run() {
 }
 
 func (r *room) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-
+  fmt.Println("room socket connection handle")
   socket, err := upgrader.Upgrade(w, req, nil)
 
   if err != nil {
