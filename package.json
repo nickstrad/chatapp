@@ -9,6 +9,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:dev": "concurrently -n \"webpack,backend\" -c \"black,red\" \"npm:start\" \"npm:start:backend\"",
+    "start:backend": "go run backend/main.go backend/room.go backend/client.go",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -27,5 +29,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "proxy": "http://localhost:3001",
+  "devDependencies": {
+    "concurrently": "^4.1.1"
   }
 }
