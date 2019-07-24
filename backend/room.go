@@ -1,5 +1,11 @@
 package main
 
+import (
+  "github.com/gorilla/websocket"
+  "net/http"
+  "log"
+)
+
 type room struct {
   forward chan []byte
   join chan *client
@@ -19,10 +25,10 @@ var upgrader = &websocket.Upgrader{
 
 func newRoom() *room {
   return &room {
-    forward: make(chan []btye),
+    forward: make(chan []byte),
     join: make(chan *client),
     leave: make(chan *client),
-    client: make(map[*client]bool),
+    clients: make(map[*client]bool),
   }
 }
 
@@ -33,7 +39,7 @@ func (r *room) run() {
     case client := <-r.join:
       r.clients[client] = true
 
-    case client := <-r.leave;
+    case client := <-r.leave:
       delete(r.clients, client)
       close(client.send)
 
@@ -45,7 +51,7 @@ func (r *room) run() {
   }
 }
 
-func (r *room) ServeHTTP(w http.ResponseWriter, req &http.Request) {
+func (r *room) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 
   socket, err := upgrader.Upgrade(w, req, nil)
 

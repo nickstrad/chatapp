@@ -1,6 +1,7 @@
 package main
 
 import (
+  "fmt"
   "log"
   "net/http"
   "text/template"
@@ -27,11 +28,12 @@ func main() {
   t := &templateHandler{ filename: "chat.html" }
 
   http.HandleFunc("/", t.ServeHTTP)
-  http.HandleFunc("/room", r)
+  http.HandleFunc("/room", r.ServeHTTP)
 
   go r.run()
 
   //Start server
+  fmt.Println("starting server on localhost:3001")
   if err := http.ListenAndServe(":3001", nil); err != nil {
     log.Fatal("ListenAndServe:", err)
   }

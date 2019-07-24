@@ -15,7 +15,7 @@ func (c *client) read() {
 
   for {
 
-    _, msg err := c.socket.ReadMessage()
+    _, msg, err := c.socket.ReadMessage()
 
     if err != nil {
       return
