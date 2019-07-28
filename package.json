@@ -10,7 +10,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start:dev": "concurrently -n \"webpack,backend\" -c \"black,red\" \"npm:start\" \"npm:start:backend\"",
-    "start:backend": "go run backend/main.go backend/room.go backend/client.go",
+    "start:backend": "go run backend/chat/main.go backend/chat/room.go backend/chat/client.go",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
